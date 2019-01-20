@@ -30,8 +30,8 @@ const loadCharts = function(labels, data) {
           {
             ticks: {
               beginAtZero: true,
-              min: 0,
-              max: 2000
+              min: Math.round(Math.min(...data) * 0.9),
+              max: Math.round(Math.max(...data) * 1.1)
             }
           }
         ]
