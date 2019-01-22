@@ -35,6 +35,11 @@ const loadCharts = function(labels, data) {
             }
           }
         ]
+      },
+      elements: {
+        line: {
+          tension: 0,
+        }
       }
     }
   });
@@ -65,7 +70,6 @@ db.collection('CO2')
       labels.push(item[0]);
       data.push(item[1]);
     });
-    console.log(labels);
-    console.log(data);
     loadCharts(labels, data);
+    document.getElementById('loader').remove()
   });
