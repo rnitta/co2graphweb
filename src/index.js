@@ -1,6 +1,7 @@
 import './stylesheets/index.scss';
 import 'firebase/firestore';
 import 'chart.js';
+import 'chartjs-plugin-annotation';
 
 import * as firebase from 'firebase';
 firebase.initializeApp({
@@ -36,9 +37,55 @@ const loadCharts = function(labels, data) {
           }
         ]
       },
+      annotation: {
+        annotations: [
+          {
+            type: 'line',
+            mode: 'horizontal',
+            scaleID: 'y-axis-0',
+            value: 1400,
+            borderColor: 'red',
+            position: 'left',
+            borderWidth: 4,
+            label: {
+              position: 'left',
+              enabled: true,
+              content: '思考力1/2になるライン'
+            }
+          },
+          {
+            type: 'line',
+            mode: 'horizontal',
+            scaleID: 'y-axis-0',
+            value: 1000,
+            borderColor: 'yellow',
+            position: 'left',
+            borderWidth: 4,
+            label: {
+              position: 'left',
+              enabled: true,
+              content: '超えてはいけないライン'
+            }
+          },
+          {
+            type: 'line',
+            mode: 'horizontal',
+            scaleID: 'y-axis-0',
+            value: 400,
+            borderColor: 'blue',
+            position: 'left',
+            borderWidth: 4,
+            label: {
+              position: 'left',
+              enabled: true,
+              content: '外気並み'
+            }
+          }
+        ]
+      },
       elements: {
         line: {
-          tension: 0,
+          tension: 0
         }
       }
     }
@@ -51,11 +98,11 @@ let data = [];
 let labels = [];
 
 let day = new Date();
-day.setDate(day.getDate() - 10);
-
+day.setDate(day.getDate() - 2);
 db.settings(settings);
 db.collection('CO2')
   .where('timestamp', '>=', firebase.firestore.Timestamp.fromDate(day))
+  .limit(1200)
   .orderBy('timestamp')
   .get()
   .then(querySnapshot => {
@@ -71,5 +118,10 @@ db.collection('CO2')
       data.push(item[1]);
     });
     loadCharts(labels, data);
-    document.getElementById('loader').remove()
+    document.getElementById('loader').remove();
+  })
+  .catch(function(error) {
+    alert('エラー。詳細はインスペクタに')
+    console.log('Quota exceededなら今日はもう閉店ガラガラ。明日みてね！');
+    console.log(error);
   });
