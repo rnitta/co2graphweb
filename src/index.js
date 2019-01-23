@@ -15,12 +15,12 @@ const loadCharts = function(labels, data) {
   new Chart(ctx, {
     type: 'line',
     data: {
-      labels: labels,
+      labels: labels.reverse(),
       datasets: [
         {
           label: 'CO2',
           borderColor: 'rgb(255, 0, 0)',
-          data: data
+          data: data.reverse()
         }
       ]
     },
@@ -102,8 +102,8 @@ day.setDate(day.getDate() - 2);
 db.settings(settings);
 db.collection('CO2')
   .where('timestamp', '>=', firebase.firestore.Timestamp.fromDate(day))
+  .orderBy('timestamp', 'desc')
   .limit(process.env.NODE_ENV === 'development' ? 10 : 1200)
-  .orderBy('timestamp')
   .get()
   .then(querySnapshot => {
     querySnapshot.forEach(doc => {
