@@ -1,5 +1,6 @@
 const path = require('path')
 const { UnusedFilesWebpackPlugin } = require('unused-files-webpack-plugin');
+//const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 
 module.exports = {
   mode: process.env.WEBPACK_SERVE ? 'development' : 'production',
@@ -9,6 +10,9 @@ module.exports = {
   output: {
     path: path.resolve(__dirname, process.env.WEBPACK_SERVE ? './dist' : './docs'),
     filename: process.env.WEBPACK_SERVE ? '[name]-[hash].js' : '[name].js'
+  },
+  optimization: {
+    minimize: true,
   },
   module: {
     rules: [
@@ -62,5 +66,6 @@ module.exports = {
   },
   plugins: [
     new UnusedFilesWebpackPlugin({patterns: ['src/**/*.js']})
+    //,new BundleAnalyzerPlugin()
   ]
 }

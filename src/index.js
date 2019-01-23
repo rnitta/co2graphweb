@@ -1,9 +1,9 @@
 import './stylesheets/index.scss';
+import * as firebase from 'firebase';
 import 'firebase/firestore';
 import 'chart.js';
 import 'chartjs-plugin-annotation';
 
-import * as firebase from 'firebase';
 firebase.initializeApp({
   apiKey: 'AIzaSyD4mGvlBEK1Q-JK5Htib1y319xNq5k88_4',
   authDomain: 'portco2.firebaseapp.com',
@@ -102,7 +102,7 @@ day.setDate(day.getDate() - 2);
 db.settings(settings);
 db.collection('CO2')
   .where('timestamp', '>=', firebase.firestore.Timestamp.fromDate(day))
-  .limit(1200)
+  .limit(process.env.NODE_ENV === 'development' ? 10 : 1200)
   .orderBy('timestamp')
   .get()
   .then(querySnapshot => {
@@ -121,7 +121,9 @@ db.collection('CO2')
     document.getElementById('loader').remove();
   })
   .catch(function(error) {
-    alert('エラー。詳細はインスペクタに')
-    console.log('Quota exceededなら今日はもう閉店ガラガラ。明日みてね！');
+    if(error.code === 'resource-exhausted') {
+      alert('無料枠を食い切ったのでまた明日。（17時区切り）')
+      console.log('今日はもう閉店ガラガラ。明日みてね！');
+    }
     console.log(error);
   });
