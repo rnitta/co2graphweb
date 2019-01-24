@@ -5,7 +5,8 @@ const { UnusedFilesWebpackPlugin } = require('unused-files-webpack-plugin');
 module.exports = {
   mode: process.env.WEBPACK_SERVE ? 'development' : 'production',
   entry: {
-    index: path.resolve(__dirname, './src/', "index.js")
+    index: path.resolve(__dirname, './src/', "index.js"),
+    realtime: path.resolve(__dirname, './src/', "realtime.js")
   },
   output: {
     path: path.resolve(__dirname, process.env.WEBPACK_SERVE ? './dist' : './docs'),

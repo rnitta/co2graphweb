@@ -98,7 +98,7 @@ let data = [];
 let labels = [];
 
 let day = new Date();
-day.setDate(day.getDate() - 2);
+day.setDate(day.getDate() - 1);
 db.settings(settings);
 db.collection('CO2')
   .where('timestamp', '>=', firebase.firestore.Timestamp.fromDate(day))
