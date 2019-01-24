@@ -11,7 +11,7 @@ firebase.initializeApp({
 });
 
 const loadCharts = function(labels, data) {
-  const ctx = document.getElementById('hoge').getContext('2d');
+  const ctx = document.getElementById('chart').getContext('2d');
   new Chart(ctx, {
     type: 'line',
     data: {
@@ -98,7 +98,7 @@ let data = [];
 let labels = [];
 
 let day = new Date();
-day.setDate(day.getDate() - 1);
+day.setDate(day.getDate() - 2);
 db.settings(settings);
 db.collection('CO2')
   .where('timestamp', '>=', firebase.firestore.Timestamp.fromDate(day))
