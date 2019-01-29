@@ -6,6 +6,7 @@ export default function(title, labels, data) {
       labels: labels,
       datasets: [
         {
+          cubicInterpolationMode: "default",
           label: 'CO2',
           borderColor: 'rgb(255, 0, 0)',
           data: data
@@ -76,11 +77,6 @@ export default function(title, labels, data) {
           }
         ]
       },
-      elements: {
-        line: {
-          tension: 0
-        }
-      }
     }
   });
 };
