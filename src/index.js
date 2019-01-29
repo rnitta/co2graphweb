@@ -36,7 +36,7 @@ db.collection('CO2')
       labels.push(item[0]);
       data.push(item[1]);
     });
-    chartsetting('過去2日P社内CO2濃度', labels, data);
+    chartsetting('過去2日P社内CO2濃度', labels.reverse(), data.reverse());
     document.getElementById('loader').remove();
   })
   .catch(function(error) {
